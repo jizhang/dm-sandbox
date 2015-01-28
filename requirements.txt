@@ -1,0 +1,9 @@
+ipython
+
+numpy
+matplotlib
+
+pandas
+scipy
+statsmodels
+patsy
