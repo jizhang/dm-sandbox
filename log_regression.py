@@ -1,3 +1,6 @@
+
+# http://aimotion.blogspot.com/2011/11/machine-learning-with-python-logistic.html
+
 from numpy import loadtxt, where
 from pylab import scatter, show, legend, xlabel, ylabel
 

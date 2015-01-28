@@ -1,3 +1,6 @@
+
+# http://blog.yhathq.com/posts/logistic-regression-and-python.html
+
 import pandas as pd
 import statsmodels.api as sm
 import pylab as pl
