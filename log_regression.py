@@ -5,7 +5,7 @@ from numpy import loadtxt, where
 from pylab import scatter, show, legend, xlabel, ylabel
 
 #load the dataset
-data = loadtxt('/Users/jizhang/vbox/dm/logistic/ex2data1.txt', delimiter=',')
+data = loadtxt('ex2data1.txt', delimiter=',')
 
 X = data[:, 0:2]
 y = data[:, 2]
