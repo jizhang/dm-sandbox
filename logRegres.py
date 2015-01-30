@@ -54,18 +54,18 @@ def plotBestFit(weights):
 def stocGradAscent0(dataMat, labelMat):
     m, n = dataMat.shape
     alpha = 0.01
-    weights = np.ones(n)
+    weights = np.ones((n, 1))
     for i in range(m):
         h = sigmoid(np.sum(dataMat[i].dot(weights)))
         error = labelMat[i] - h
-        weights = weights + alpha * error * dataMat[i]
+        weights = weights + alpha * dataMat[i].reshape((n, 1)) * error
     return weights
 
 wei0 = stocGradAscent0(dataMat, labelMat)
 
 def stocGradAscent1(dataMat, labelMat, numIter=150):
     m, n = dataMat.shape
-    weights = np.ones(n)
+    weights = np.ones((n, 1))
     for j in range(numIter):
         dataIndex = range(m)
         for i in range(m):
@@ -73,7 +73,7 @@ def stocGradAscent1(dataMat, labelMat, numIter=150):
             randIndex = int(np.random.uniform(0, len(dataIndex)))
             h = sigmoid(np.sum(dataMat[randIndex].dot(weights)))
             error = labelMat[randIndex] - h
-            weights = weights + alpha * error * dataMat[randIndex]
+            weights = weights + alpha * dataMat[randIndex].reshape((n, 1)) * error
             del(dataIndex[randIndex])
     return weights
 
