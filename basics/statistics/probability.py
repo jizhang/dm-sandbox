@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
+from scipy.stats import chi2
 
 def plot_normal(mu, sigma):
     '''http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.normal.html
@@ -18,3 +19,9 @@ def calc_normal(x, mu, sigma):
         return 1 / (np.sqrt(2 * np.pi) * sigma) \
                * np.exp(-(x - mu) ** 2 / (2 * sigma **2))
     return quad(integrand, -np.inf, x, args=(mu, sigma))[0]
+
+def chisquare(alpha, n):
+    return chi2.ppf(1 - alpha, n)
+
+def chisquare_inverse(p, n):
+    return 1 - chi2.cdf(p, n)
