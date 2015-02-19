@@ -31,6 +31,6 @@ for (i in 1:length(data[,1])) {
 }
 
 for (i in 1:length(data[,1])) {
-  text(3 * i - 1.5, data$pre[i] + 10, data$pre[i], col="deepskyblue4")
-  text(3 * i - 0.5, data$now[i] + 10, data$now[i], col="deepskyblue4")
+    text(3 * i - 1.5, data$pre[i] + 10, data$pre[i], col="deepskyblue4")
+    text(3 * i - 0.5, data$now[i] + 10, data$now[i], col="deepskyblue4")
 }
