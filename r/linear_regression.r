@@ -1,0 +1,6 @@
+cost <- c(1.8, 1.2, 0.4, 0.5, 2.5, 2.5, 1.5, 1.2, 1.6, 1.0, 1.5, 0.7, 1.0, 0.8)
+sales <- c(104, 68, 39, 43, 127, 134, 87, 77, 102, 65, 101, 46, 52, 33)
+data <- data.frame(cost=cost, sales=sales)
+plot(data, pch=16, xlab="cost促销让利费用（十万元）", ylab="sales促销销量（十万元）")
+sol.lm <- lm(sales ~ cost, data)
+abline(sol.lm, col="red")
