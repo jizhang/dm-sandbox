@@ -4,3 +4,12 @@ data <- data.frame(cost=cost, sales=sales)
 plot(data, pch=16, xlab="cost促销让利费用（十万元）", ylab="sales促销销量（十万元）")
 sol.lm <- lm(sales ~ cost, data)
 abline(sol.lm, col="red")
+
+sol.coef <- summary(sol.lm)$coefficients
+df <- sol.lm$df.residual
+alpha <- 0.05
+left <- sol.coef[,1] - sol.coef[,2] * qt(1 - alpha / 2, df)
+right <- sol.coef[,1] + sol.coef[,2] * qt(1 - alpha / 2, df)
+
+new.data <- data.frame(cost=c(0.98, 0.88))
+sol.pre <- predict(sol.lm, new.data, level=0.95, interval="prediction")
