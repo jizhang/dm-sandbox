@@ -1,0 +1,4 @@
+# Windows: /path/to/R/etc/Rprofile.site
+
+option(encoding="UTF-8")
+setwd("/path/to/dm-sandbox/r")
