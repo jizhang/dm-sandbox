@@ -13,3 +13,14 @@ right <- sol.coef[,1] + sol.coef[,2] * qt(1 - alpha / 2, df)
 
 new.data <- data.frame(cost=c(0.98, 0.88))
 sol.pre <- predict(sol.lm, new.data, level=0.95, interval="prediction")
+
+# multiple linear regression http://www.stat.yale.edu/Courses/1997-98/101/linmult.htm
+data1 <- read.table("cereals.txt", header=T)
+sol.lm1 <- lm(rating ~ fat + fiber + sugars, data1)
+print(summary(sol.lm1))
+
+# discrete variable
+data2 <- data1
+data2$shelf <- as.factor(data2$shelf)
+sol.lm2 <- lm(rating ~ shelf, data2)
+print(summary(sol.lm2))
