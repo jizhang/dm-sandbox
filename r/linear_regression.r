@@ -24,3 +24,12 @@ data2 <- data1
 data2$shelf <- as.factor(data2$shelf)
 sol.lm2 <- lm(rating ~ shelf, data2)
 print(summary(sol.lm2))
+
+
+# from lecture
+library(UsingR)
+y <- galton$child
+x <- galton$parent
+beta1 <- cor(y, x) * sd(y) / sd(x)
+beta0 <- mean(y) - beta1 * mean(x)
+rbind(c(beta0, beta1), coef(lm(y ~ x)))
