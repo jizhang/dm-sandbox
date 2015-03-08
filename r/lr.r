@@ -22,3 +22,15 @@ test.y <- 1 / (1 + exp(-test.y))
 test.y <- as.factor(ifelse(test.y >= 0.5, 1, 0))
 test.data$y <- test.y
 print(test.data)
+
+con.matrix <- table(data.frame(predicted=predict(sol.glm, data) > 0.5, actual=data$y == 1))
+print(con.matrix)
+
+acc <- sum(con.matrix[c(1, 4)]) / sum(con.matrix)
+err <- sum(con.matrix[c(2, 3)]) / sum(con.matrix)
+precision <- con.matrix[4] / sum(con.matrix[c(2, 4)])
+recall <- con.matrix[4] / sum(con.matrix[c(3, 4)])
+f1 <- 2 * precision * recall / (precision + recall)
+metrics <- data.frame(metric=c("Accuracy", "Error rate", "Precision", "Recall", "F1"),
+                      value=c(acc, err, precision, recall, f1))
+print(metrics)
