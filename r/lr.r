@@ -34,3 +34,9 @@ f1 <- 2 * precision * recall / (precision + recall)
 metrics <- data.frame(metric=c("Accuracy", "Error rate", "Precision", "Recall", "F1"),
                       value=c(acc, err, precision, recall, f1))
 print(metrics)
+
+library(ROCR)
+predictions <- predict(sol.glm, data)
+pred <- prediction(predictions, data$y)
+perf <- performance(pred, "tpr", "fpr")
+plot(perf, col=rainbow(10))
