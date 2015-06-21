@@ -1,0 +1,73 @@
+---
+title: "Impact of Severe Weather Events in US"
+output: html_document
+---
+
+## Synopsis
+
+This project explores the U.S. National Oceanic and Atmospheric Administration's (NOAA) storm database and analyses which types of weather events are most harmful with respect to population health or have the greatest economic consequences. We use fatalities, injuries, property and crop damage of every kind of events to answer these questions. Our findings are that tornado causes most fatalities and injuries while flood causes most economic lost.
+
+## Data Processing
+
+Load data frame from the CSV file:
+
+```{r cache=TRUE}
+data <- read.csv("repdata-data-StormData.csv.bz2", fileEncoding = "latin1")
+```
+
+Sum up fatalities and injuries by weather event types:
+
+```{r}
+aggr.fatalities <- aggregate(FATALITIES ~ EVTYPE, data, sum)
+aggr.fatalities <- head(aggr.fatalities[order(-aggr.fatalities$FATALITIES),], n = 5)
+
+aggr.injuries <- aggregate(INJURIES ~ EVTYPE, data, sum)
+aggr.injuries <- head(aggr.injuries[order(-aggr.injuries$INJURIES),], n = 5)
+```
+
+Property damage data is stored in two columns. `PROPDMG` is the base and `PROPDMGEXP` is the exponent. The exponent is either a number or a character, where `B` stands for `billion`, etc. Transform them first:
+
+```{r warning=FALSE}
+data$PROPDMGEXPNEW <- gsub("[bB]", "9", data$PROPDMGEXP)
+data$PROPDMGEXPNEW <- gsub("[mM]", "6", data$PROPDMGEXPNEW)
+data$PROPDMGEXPNEW <- gsub("[kK]", "3", data$PROPDMGEXPNEW)
+data$PROPDMGEXPNEW <- gsub("[hH]", "2", data$PROPDMGEXPNEW)
+data$PROPDMGEXPNEW <- as.numeric(data$PROPDMGEXPNEW)
+data[is.na(data$PROPDMGEXPNEW), "PROPDMGEXPNEW"] <- 0
+
+data$CROPDMGEXPNEW <- gsub("[bB]", "9", data$CROPDMGEXP)
+data$CROPDMGEXPNEW <- gsub("[mM]", "6", data$CROPDMGEXPNEW)
+data$CROPDMGEXPNEW <- gsub("[kK]", "3", data$CROPDMGEXPNEW)
+data$CROPDMGEXPNEW <- gsub("[hH]", "2", data$CROPDMGEXPNEW)
+data$CROPDMGEXPNEW <- as.numeric(data$CROPDMGEXPNEW)
+data[is.na(data$CROPDMGEXPNEW), "CROPDMGEXPNEW"] <- 0
+```
+
+Now calculate the total damage and sum up by types.
+
+```{r}
+data$TOTALDMG <- data$PROPDMG * 10 ^ data$PROPDMGEXPNEW + data$CROPDMG * 10 ^ data$CROPDMGEXPNEW
+aggr.totaldmg <- aggregate(TOTALDMG ~ EVTYPE, data, sum)
+aggr.totaldmg <- head(aggr.totaldmg[order(-aggr.totaldmg$TOTALDMG),], n = 5)
+```
+
+## Results
+
+The following two plots indicate that tornado causes most fatalities *and* injuries among all severe weather event types.
+
+```{r}
+barplot(aggr.fatalities$FATALITIES, names.arg = aggr.fatalities$EVTYPE, 
+        main = "Total Fatalities of Weather Event (Top 5)",  las = 2)
+```
+
+```{r}
+barplot(aggr.injuries$INJURIES, names.arg = aggr.injuries$EVTYPE, 
+        main = "Total Injuries of Weather Event (Top 5)",  las = 2)
+```
+
+And flood has the greatest economic consequences, as is shown in the following chart:
+
+```{r}
+barplot(aggr.totaldmg$TOTALDMG, names.arg = aggr.totaldmg$EVTYPE, 
+        main = "Total Damage of Weather Event (Top 5)",  las = 2)
+```
